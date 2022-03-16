@@ -9,9 +9,13 @@ import {
   getProposalAccountAddressAndBump,
   getSquadAddressAndBump,
   getSquadMintAddressAndBump,
+  getSquadTreasuryAddressAndBump,
+  getVoteAccountAddressAndBump,
 } from "./address";
+import { SQUADS_PROGRAM_ID } from "./constants";
 
 export {
+  SQUADS_PROGRAM_ID,
   withCreateSquad,
   withAddMembersToSquad,
   withCreateProposalAccount,
@@ -22,4 +26,6 @@ export {
   getMemberEquityAddressAndBumpSync,
   getMemberEquityAddressAndBump,
   getSquadMintAddressAndBump,
+  getSquadTreasuryAddressAndBump,
+  getVoteAccountAddressAndBump,
 };
