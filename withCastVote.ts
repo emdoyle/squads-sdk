@@ -10,7 +10,6 @@ import {
   getSquadMintAddressAndBump,
   getVoteAccountAddressAndBump,
 } from "./address";
-import { SQUADS_PROGRAM_ID } from "./constants";
 
 export const withCastVote = async (
   instructions: TransactionInstruction[],
@@ -26,12 +25,17 @@ export const withCastVote = async (
   const data = Buffer.alloc(2);
   SquadsSchema.get(SquadsInstruction.CastVote).encode(args, data);
 
-  const [squadMint] = await getSquadMintAddressAndBump(squad);
+  const [squadMint] = await getSquadMintAddressAndBump(programId, squad);
   const [memberEquityRecord] = await getMemberEquityAddressAndBump(
+    programId,
     payer,
     squad
   );
-  const [voteAccount] = await getVoteAccountAddressAndBump(proposal, payer);
+  const [voteAccount] = await getVoteAccountAddressAndBump(
+    programId,
+    proposal,
+    payer
+  );
 
   const keys = [
     { pubkey: payer, isWritable: true, isSigner: true },
@@ -42,7 +46,7 @@ export const withCastVote = async (
     { pubkey: voteAccount, isWritable: true, isSigner: false },
     { pubkey: SystemProgram.programId, isWritable: false, isSigner: false },
     { pubkey: SYSVAR_RENT_PUBKEY, isWritable: false, isSigner: false },
-    { pubkey: SQUADS_PROGRAM_ID, isWritable: false, isSigner: false },
+    { pubkey: programId, isWritable: false, isSigner: false },
   ];
 
   instructions.push(

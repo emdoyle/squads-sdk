@@ -12,10 +12,16 @@ import {
   getSquadTreasuryAddressAndBump,
   getVoteAccountAddressAndBump,
 } from "./address";
-import { SQUADS_PROGRAM_ID } from "./constants";
+import {
+  SQUADS_MAINNET_PROGRAM_ID,
+  SQUADS_DEVNET_PROGRAM_ID,
+  SQUADS_CUSTOM_DEVNET_PROGRAM_ID,
+} from "./constants";
 
 export {
-  SQUADS_PROGRAM_ID,
+  SQUADS_MAINNET_PROGRAM_ID,
+  SQUADS_DEVNET_PROGRAM_ID,
+  SQUADS_CUSTOM_DEVNET_PROGRAM_ID,
   withCreateSquad,
   withAddMembersToSquad,
   withCreateProposalAccount,

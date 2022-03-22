@@ -46,9 +46,9 @@ export const withCreateSquad = async (
   const data = Buffer.alloc(81);
   SquadsSchema.get(SquadsInstruction.CreateSquad).encode(args, data);
 
-  const [squad] = await getSquadAddressAndBump(payer, randomId);
-  const [squadMint] = await getSquadMintAddressAndBump(squad);
-  const [squadSol] = await getSquadTreasuryAddressAndBump(squad);
+  const [squad] = await getSquadAddressAndBump(programId, payer, randomId);
+  const [squadMint] = await getSquadMintAddressAndBump(programId, squad);
+  const [squadSol] = await getSquadTreasuryAddressAndBump(programId, squad);
 
   const keys = [
     {

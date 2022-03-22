@@ -1,45 +1,51 @@
 import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
-import { SQUADS_PROGRAM_ID } from "./constants";
 
 export async function getSquadAddressAndBump(
+  programId: PublicKey,
   admin: PublicKey,
   randomId: string
 ) {
   return await PublicKey.findProgramAddress(
     [admin.toBuffer(), Buffer.from(randomId), Buffer.from("!squad")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
 export function getMemberEquityAddressAndBumpSync(
+  programId: PublicKey,
   member: PublicKey,
   squad: PublicKey
 ) {
   return anchor.utils.publicKey.findProgramAddressSync(
     [member.toBuffer(), squad.toBuffer(), Buffer.from("!memberequity")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
 export async function getMemberEquityAddressAndBump(
+  programId: PublicKey,
   member: PublicKey,
   squad: PublicKey
 ) {
   return await PublicKey.findProgramAddress(
     [member.toBuffer(), squad.toBuffer(), Buffer.from("!memberequity")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
-export async function getSquadMintAddressAndBump(squad: PublicKey) {
+export async function getSquadMintAddressAndBump(
+  programId: PublicKey,
+  squad: PublicKey
+) {
   return await PublicKey.findProgramAddress(
     [squad.toBuffer(), Buffer.from("!squadmint")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
 export async function getProposalAccountAddressAndBump(
+  programId: PublicKey,
   squad: PublicKey,
   nonce: number
 ) {
@@ -47,23 +53,27 @@ export async function getProposalAccountAddressAndBump(
   nonceBuf.writeInt32LE(nonce);
   return await PublicKey.findProgramAddress(
     [squad.toBuffer(), nonceBuf, Buffer.from("!proposal")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
 export async function getVoteAccountAddressAndBump(
+  programId: PublicKey,
   proposal: PublicKey,
   member: PublicKey
 ) {
   return await PublicKey.findProgramAddress(
     [proposal.toBuffer(), member.toBuffer(), Buffer.from("!vote")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }
 
-export async function getSquadTreasuryAddressAndBump(squad: PublicKey) {
+export async function getSquadTreasuryAddressAndBump(
+  programId: PublicKey,
+  squad: PublicKey
+) {
   return await PublicKey.findProgramAddress(
     [squad.toBuffer(), Buffer.from("!squadsol")],
-    SQUADS_PROGRAM_ID
+    programId
   );
 }

@@ -32,8 +32,8 @@ export const withExecuteProposal = async (
   const data = Buffer.alloc(11);
   SquadsSchema.get(SquadsInstruction.ExecuteProposal).encode(args, data);
 
-  const [squadSol] = await getSquadTreasuryAddressAndBump(squad);
-  const [squadMint] = await getSquadMintAddressAndBump(squad);
+  const [squadSol] = await getSquadTreasuryAddressAndBump(programId, squad);
+  const [squadMint] = await getSquadMintAddressAndBump(programId, squad);
 
   const keys = [
     { pubkey: payer, isWritable: true, isSigner: true },

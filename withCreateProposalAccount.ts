@@ -11,7 +11,6 @@ import {
 } from "./instruction";
 import { getProposalAccountAddressAndBump } from "./address";
 import { BN } from "@project-serum/anchor";
-import { SQUADS_PROGRAM_ID } from "./constants";
 
 const DEFAULT_PROPOSAL_START_DELTA = 24 * 60 * 60 * 1_000; // 1 day before now
 const DEFAULT_PROPOSAL_LIFETIME = 30 * 60 * 1_000; // 30 minutes
@@ -65,6 +64,7 @@ export const withCreateProposalAccount = async (
   SquadsSchema.get(SquadsInstruction.CreateProposalAccount).encode(args, data);
 
   const [proposal] = await getProposalAccountAddressAndBump(
+    programId,
     squad,
     proposalNonce
   );
@@ -96,7 +96,7 @@ export const withCreateProposalAccount = async (
       isSigner: false,
     },
     {
-      pubkey: SQUADS_PROGRAM_ID,
+      pubkey: programId,
       isWritable: false,
       isSigner: false,
     },

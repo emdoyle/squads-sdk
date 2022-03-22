@@ -31,7 +31,7 @@ export const withAddMembersToSquad = async (
   const data = Buffer.alloc(10 + numAllocationBytes);
   SquadsSchema.get(SquadsInstruction.AddMembersToSquad).encode(args, data);
 
-  const [squadMint] = await getSquadMintAddressAndBump(squad);
+  const [squadMint] = await getSquadMintAddressAndBump(programId, squad);
 
   const keys = [
     {
@@ -67,6 +67,7 @@ export const withAddMembersToSquad = async (
   ];
   allocations.forEach(([member]) => {
     const [memberEquityRecord] = getMemberEquityAddressAndBumpSync(
+      programId,
       member,
       squad
     );
