@@ -65,7 +65,7 @@ class U64 extends AbstractLayout<BN> {
         `encoding overruns Buffer (${this.property ?? "(unnamed)"}: U64)`
       );
     }
-    const srcb = src.toBuffer("le", 8);
+    const srcb = src.toArrayLike(Buffer, "le", 8);
     srcb.copy(uint8ArrayToBuffer(b), offset);
     return 8;
   }
@@ -89,7 +89,7 @@ class I64 extends AbstractLayout<BN> {
         `encoding overruns Buffer (${this.property ?? "(unnamed)"}: I64)`
       );
     }
-    const srcb = src.toTwos(64).toBuffer("le", 8);
+    const srcb = src.toTwos(64).toArrayLike(Buffer, "le", 8);
     srcb.copy(uint8ArrayToBuffer(b), offset);
     return 8;
   }
