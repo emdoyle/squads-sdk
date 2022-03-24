@@ -13,6 +13,15 @@ import {
   getVoteAccountAddressAndBump,
 } from "./address";
 import {
+  Squad,
+  SquadItem,
+  Proposal,
+  ProposalItem,
+  SquadsAccountType,
+} from "./accounts";
+import { SquadsSchema } from "./schema";
+import { getSquads, getProposals } from "./api";
+import {
   SQUADS_MAINNET_PROGRAM_ID,
   SQUADS_DEVNET_PROGRAM_ID,
   SQUADS_CUSTOM_DEVNET_PROGRAM_ID,
@@ -34,4 +43,12 @@ export {
   getSquadMintAddressAndBump,
   getSquadTreasuryAddressAndBump,
   getVoteAccountAddressAndBump,
+  Squad,
+  SquadItem,
+  Proposal,
+  ProposalItem,
+  SquadsAccountType,
+  SquadsSchema,
+  getSquads,
+  getProposals,
 };

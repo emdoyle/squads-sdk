@@ -7,7 +7,7 @@ import {
 import { SquadsInstruction } from "./instruction";
 import { BN } from "@project-serum/anchor";
 import { Proposal, Squad, SquadsAccountType } from "./accounts";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 const Layout = require("@solana/buffer-layout");
 
 declare module "@solana/buffer-layout" {
@@ -15,6 +15,7 @@ declare module "@solana/buffer-layout" {
   let u64: (property?: string) => U64;
   let i64: (property?: string) => I64;
   let pubkey: (property?: string) => Pubkey;
+  let bool: (property?: string) => ByteBoolean;
 }
 
 class FixedLengthUTF8 extends AbstractLayout<string> {
@@ -98,11 +99,36 @@ class I64 extends AbstractLayout<BN> {
     }
     const srcb = src.toTwos(64).toArrayLike(Buffer, "le", this.span);
     srcb.copy(uint8ArrayToBuffer(b), offset);
-    return 8;
+    return this.span;
   }
 }
 
 Layout.i64 = (property?) => new I64(property);
+
+class ByteBoolean extends AbstractLayout<boolean> {
+  constructor(property?: string) {
+    super(1, property);
+  }
+  /** @override */
+  decode(b: Uint8Array, offset: number = 0): boolean {
+    const buffer = uint8ArrayToBuffer(b);
+    return Boolean(buffer.slice(offset, offset + this.span).readUint8());
+  }
+  /** @override */
+  encode(src: boolean, b: Uint8Array, offset: number = 0): number {
+    if (this.span + offset > b.length) {
+      throw new RangeError(
+        `encoding overruns Buffer (${
+          this.property ?? "(unnamed)"
+        }: ByteBoolean)`
+      );
+    }
+    uint8ArrayToBuffer(b).writeUInt8(Number(src), offset);
+    return this.span;
+  }
+}
+
+Layout.bool = (property?) => new ByteBoolean(property);
 
 class Pubkey extends AbstractLayout<PublicKey> {
   constructor(property?: string) {
@@ -187,12 +213,14 @@ export const SquadsSchema = new Map<
     SquadsInstruction.ExecuteProposal,
     Layout.struct([Layout.u8("instruction"), Layout.fixedUtf8(10, "randomId")]),
   ],
+  // TODO: decoding null pubkeys etc. in sequences is wasteful
+  //   a custom ExternalLayout should be able to determine how much space to skip
   [
     Squad,
     Layout.struct([
-      Layout.u8("isInitialized"),
-      Layout.u8("open"),
-      Layout.u8("emergencyLock"),
+      Layout.bool("isInitialized"),
+      Layout.bool("open"),
+      Layout.bool("emergencyLock"),
       Layout.u8("allocationType"),
       Layout.u8("voteSupport"),
       Layout.u8("voteQuorum"),
@@ -215,5 +243,40 @@ export const SquadsSchema = new Map<
       Layout.seq(Layout.u64(), 32), // reserved
     ]),
   ],
-  [Proposal, Layout.struct([])],
+  [
+    Proposal,
+    Layout.struct([
+      Layout.bool("isInitialized"),
+      Layout.u8("proposalType"),
+      Layout.u64("executionAmount"),
+      Layout.u64("executionAmountOut"),
+      Layout.pubkey("executionSource"),
+      Layout.pubkey("executionDestination"),
+      Layout.pubkey("creator"),
+      Layout.pubkey("squad"),
+      Layout.fixedUtf8(36, "title"),
+      Layout.fixedUtf8(496, "description"),
+      Layout.fixedUtf8(48, "link"),
+      Layout.u8("votesNum"),
+      Layout.u8("hasVotedNum"),
+      Layout.u32(), // votes length
+      Layout.seq(Layout.pubkey(), 150, "hasVoted"),
+      Layout.seq(Layout.u64(), 5, "votes"),
+      Layout.seq(Layout.fixedUtf8(44), 5, "votesLabels"),
+      Layout.i64("startTimestamp"),
+      Layout.i64("closeTimestamp"),
+      Layout.i64("createdTimestamp"),
+      Layout.u64("supplyAtExecute"),
+      Layout.u8("membersAtExecute"),
+      Layout.u8("thresholdAtExecute"),
+      Layout.bool("executed"),
+      Layout.bool("executeReady"),
+      Layout.i64("executionDate"),
+      Layout.u8("instructionIndex"),
+      Layout.bool("multipleChoice"),
+      Layout.pubkey("executedBy"),
+      Layout.u32("proposalIndex"),
+      Layout.seq(Layout.u64(), 16), // reserved
+    ]),
+  ],
 ]);

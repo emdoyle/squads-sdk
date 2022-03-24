@@ -19,7 +19,7 @@ export class Squad {
   mint: PublicKey;
   proposalNonce: number;
   createdOn: BN;
-  members: Map<PublicKey, PublicKey>;
+  members?: Map<PublicKey, PublicKey>;
   randomId: string;
   childIndex: number;
   memberLockIndex: number;
@@ -66,6 +66,11 @@ export class Squad {
   }
 }
 
+export class SquadItem {
+  account: Squad;
+  pubkey: PublicKey;
+}
+
 export class Proposal {
   isInitialized: boolean;
   proposalType: number;
@@ -74,7 +79,7 @@ export class Proposal {
   executionSource: PublicKey;
   executionDestination: PublicKey;
   creator: PublicKey;
-  squadAddress: PublicKey;
+  squad: PublicKey;
   title: string;
   description: string;
   link: string;
@@ -104,7 +109,7 @@ export class Proposal {
     executionSource: PublicKey;
     executionDestination: PublicKey;
     creator: PublicKey;
-    squadAddress: PublicKey;
+    squad: PublicKey;
     title: string;
     description: string;
     link: string;
@@ -134,7 +139,7 @@ export class Proposal {
     this.executionSource = args.executionSource;
     this.executionDestination = args.executionDestination;
     this.creator = args.creator;
-    this.squadAddress = args.squadAddress;
+    this.squad = args.squad;
     this.title = args.title;
     this.description = args.description;
     this.link = args.link;
@@ -157,4 +162,9 @@ export class Proposal {
     this.executedBy = args.executedBy;
     this.proposalIndex = args.proposalIndex;
   }
+}
+
+export class ProposalItem {
+  account: Proposal;
+  pubkey: PublicKey;
 }
