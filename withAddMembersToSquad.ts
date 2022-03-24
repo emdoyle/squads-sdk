@@ -5,11 +5,8 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 import { BN } from "@project-serum/anchor";
-import {
-  AddMembersToSquadArgs,
-  SquadsInstruction,
-  SquadsSchema,
-} from "./instruction";
+import { AddMembersToSquadArgs, SquadsInstruction } from "./instruction";
+import { SquadsSchema } from "./schema";
 import {
   getSquadMintAddressAndBump,
   getMemberEquityAddressAndBumpSync,

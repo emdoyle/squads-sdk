@@ -4,11 +4,8 @@ import {
   SYSVAR_RENT_PUBKEY,
   TransactionInstruction,
 } from "@solana/web3.js";
-import {
-  CreateProposalAccountArgs,
-  SquadsInstruction,
-  SquadsSchema,
-} from "./instruction";
+import { CreateProposalAccountArgs, SquadsInstruction } from "./instruction";
+import { SquadsSchema } from "./schema";
 import { getProposalAccountAddressAndBump } from "./address";
 import { BN } from "@project-serum/anchor";
 

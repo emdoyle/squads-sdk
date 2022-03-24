@@ -4,7 +4,8 @@ import {
   SYSVAR_RENT_PUBKEY,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { CastVoteArgs, SquadsInstruction, SquadsSchema } from "./instruction";
+import { CastVoteArgs, SquadsInstruction } from "./instruction";
+import { SquadsSchema } from "./schema";
 import {
   getMemberEquityAddressAndBump,
   getSquadMintAddressAndBump,

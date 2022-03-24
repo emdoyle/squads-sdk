@@ -5,11 +5,8 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import {
-  CreateSquadArgs,
-  SquadsInstruction,
-  SquadsSchema,
-} from "./instruction";
+import { CreateSquadArgs, SquadsInstruction } from "./instruction";
+import { SquadsSchema } from "./schema";
 import {
   getSquadMintAddressAndBump,
   getSquadAddressAndBump,

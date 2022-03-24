@@ -4,11 +4,8 @@ import {
   SYSVAR_RENT_PUBKEY,
   TransactionInstruction,
 } from "@solana/web3.js";
-import {
-  ExecuteProposalArgs,
-  SquadsInstruction,
-  SquadsSchema,
-} from "./instruction";
+import { ExecuteProposalArgs, SquadsInstruction } from "./instruction";
+import { SquadsSchema } from "./schema";
 import {
   getSquadMintAddressAndBump,
   getSquadTreasuryAddressAndBump,
