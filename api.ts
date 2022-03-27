@@ -33,9 +33,18 @@ export const getProposals = async (
   const layout = SquadsSchema.get(Proposal);
   if (!layout) throw new Error("Missing schema entry for Proposal!");
 
-  const mergedConfig = config
-    ? { ...config, filters: [...config.filters, { dataSize: 6002 }] }
-    : { filters: [{ dataSize: 6002 }] };
+  const defaultFilters = [
+    { dataSize: 6002 },
+    { memcmp: { offset: 114, bytes: squad.toBase58() } },
+  ];
+  let mergedConfig;
+  if (config) {
+    config.filters.push(...defaultFilters);
+    mergedConfig = config;
+  } else {
+    mergedConfig = { filters: defaultFilters };
+  }
+
   const accounts = await connection.getProgramAccounts(programId, mergedConfig);
   return accounts.map((account) => ({
     account: layout.decode(account.account.data),
