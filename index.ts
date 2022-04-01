@@ -21,16 +21,10 @@ import {
 } from "./accounts";
 import { SquadsSchema } from "./schema";
 import { getSquad, getSquads, getProposal, getProposals } from "./api";
-import {
-  SQUADS_MAINNET_PROGRAM_ID,
-  SQUADS_DEVNET_PROGRAM_ID,
-  SQUADS_CUSTOM_DEVNET_PROGRAM_ID,
-} from "./constants";
+import { SQUADS_PROGRAM_ID } from "./constants";
 
 export {
-  SQUADS_MAINNET_PROGRAM_ID,
-  SQUADS_DEVNET_PROGRAM_ID,
-  SQUADS_CUSTOM_DEVNET_PROGRAM_ID,
+  SQUADS_PROGRAM_ID,
   withCreateSquad,
   withAddMembersToSquad,
   withCreateProposalAccount,

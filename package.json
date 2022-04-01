@@ -1,6 +1,6 @@
 {
   "name": "@slidexyz/squads-sdk",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Squads SDK for client implementations",
   "main": "lib/index.js",
   "scripts": {
